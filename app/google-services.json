@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "790723857984",
+    "firebase_url": "https://sapinewsandroidapp.firebaseio.com",
+    "project_id": "sapinewsandroidapp",
+    "storage_bucket": "sapinewsandroidapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790723857984:android:58d5c316018fe697",
+        "android_client_info": {
+          "package_name": "com.example.pedrohuan.sapinewsandroidapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790723857984-bh0el72eu3r9ab22on4kb4qv8io83340.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pedrohuan.sapinewsandroidapp",
+            "certificate_hash": "7e9e56d79e13da1929b480edf882fd6abbd86e2c"
+          }
+        },
+        {
+          "client_id": "790723857984-9sil9h4ecjrlli56mh978fevo0ahidl2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqnZC-KJMKImT5oIavuPL-wx90HcyzmY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790723857984-9sil9h4ecjrlli56mh978fevo0ahidl2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790723857984:android:8ea6a27e63d2797f",
+        "android_client_info": {
+          "package_name": "com.example.pedrohuan.sapinewsandroidappv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790723857984-al98i8nfk6sgmc0rkmjqa4nri6jv7jsf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pedrohuan.sapinewsandroidappv2",
+            "certificate_hash": "7e9e56d79e13da1929b480edf882fd6abbd86e2c"
+          }
+        },
+        {
+          "client_id": "790723857984-9sil9h4ecjrlli56mh978fevo0ahidl2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqnZC-KJMKImT5oIavuPL-wx90HcyzmY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790723857984-9sil9h4ecjrlli56mh978fevo0ahidl2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

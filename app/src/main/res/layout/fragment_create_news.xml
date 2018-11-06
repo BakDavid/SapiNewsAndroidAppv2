@@ -8,15 +8,28 @@
 
 
     <EditText
+        android:id="@+id/location_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="240dp"
+        android:ems="10"
+        android:hint="Location ..."
+        android:inputType="textPersonName" />
+
+    <EditText
         android:id="@+id/long_description_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="152dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Long Description .." />
+        android:hint="Long Description .."
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/title_input"
@@ -26,8 +39,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="57dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Title ..." />
+        android:hint="Title ..."
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/short_description_input"
@@ -36,10 +49,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="104dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Short Description ..." />
+        android:hint="Short Description ..."
+        android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/create_text"
@@ -50,4 +63,40 @@
         android:layout_marginTop="20dp"
         android:text="Create your own New"
         android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/phone_number_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/long_description_input"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:hint="Phone number ..."
+        android:inputType="phone" />
+
+    <Button
+        android:id="@+id/create_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/create_text"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="-12dp"
+        android:layout_marginBottom="107dp"
+        android:layout_toEndOf="@+id/image_button"
+        android:text="Button"
+        tools:text="Create" />
+
+    <ImageButton
+        android:id="@+id/image_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="80dp"
+        tools:src="@tools:sample/avatars[11]" />
+
 </RelativeLayout>

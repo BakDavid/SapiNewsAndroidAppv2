@@ -20,6 +20,8 @@ public class Main2Activity extends AppCompatActivity {
 
         bottom_nav.setOnNavigationItemSelectedListener(navListener);
 
+        bottom_nav.setSelectedItemId(R.id.nav_home);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ListNewsFragment()).commit();
     }
 
