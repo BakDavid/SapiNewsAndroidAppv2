@@ -9,15 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".application.ListNewsActivity">
+        <fragment android:name=".application.ListNewsFragment">
+
+        </fragment>
+        <fragment android:name=".application.ProfileFragment" />
+        <fragment android:name=".application.CreateNewsFragment" />
+        <activity android:name=".application.Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".application.ProfileActivity" />
-        <activity android:name=".application.CreateNewsActivity"></activity>
     </application>
 
 </manifest>
