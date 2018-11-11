@@ -63,9 +63,14 @@ public class CreateNewsFragment extends Fragment {
                 mphoneNumber = phoneNumberInput.getText().toString();
                 mlocation = locationInput.getText().toString();
 
-                DatabaseReference myRef = database.getReference("message");
+                DatabaseReference myRef = database.getReference("news").child("UID");
 
-                myRef.setValue(mtitle);
+                myRef.child("Title").setValue(mtitle);
+                myRef.child("ShortDescription").setValue(mshortDescription);
+                myRef.child("LongDescription").setValue(mlongDescription);
+                myRef.child("PhoneNumber").setValue(mphoneNumber);
+                myRef.child("Location").setValue(mlocation);
+                myRef.child("Created").setValue(System.currentTimeMillis());
 
             }
         });
