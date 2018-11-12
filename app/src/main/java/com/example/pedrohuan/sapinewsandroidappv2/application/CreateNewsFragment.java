@@ -17,12 +17,16 @@ import android.widget.ImageView;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import static android.app.Activity.RESULT_OK;
 
 public class CreateNewsFragment extends Fragment {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    private StorageReference mStorageRef;
 
     View fullView;
 
@@ -34,9 +38,10 @@ public class CreateNewsFragment extends Fragment {
     EditText phoneNumberInput;
     EditText locationInput;
 
-    ImageButton imageButton;
+    ImageView imageView;
 
     Button createButton;
+    Button uploadImageButton;
 
     String mtitle;
     String mshortDescription;
@@ -53,13 +58,16 @@ public class CreateNewsFragment extends Fragment {
 
         fullView = inflater.inflate(R.layout.fragment_create_news,container,false);
 
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
         titleInput = (EditText) fullView.findViewById(R.id.title_input);
         shortDescriptionInput = (EditText) fullView.findViewById(R.id.short_description_input);
         longDescriptionInput = (EditText) fullView.findViewById(R.id.long_description_input);
         phoneNumberInput = (EditText) fullView.findViewById(R.id.phone_number_input);
         locationInput = (EditText) fullView.findViewById(R.id.location_input);
-        imageButton = (ImageButton) fullView.findViewById(R.id.image_button);
+        imageView = (ImageView) fullView.findViewById(R.id.image_view);
         createButton = (Button) fullView.findViewById(R.id.create_button);
+        uploadImageButton = (Button) fullView.findViewById(R.id.image_upload_button);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,12 +86,16 @@ public class CreateNewsFragment extends Fragment {
                 myRef.child("LongDescription").setValue(mlongDescription);
                 myRef.child("PhoneNumber").setValue(mphoneNumber);
                 myRef.child("Location").setValue(mlocation);
+                myRef.child("Clicks").setValue(0);
                 myRef.child("Created").setValue(System.currentTimeMillis());
 
+                StorageReference riversRef = mStorageRef.child("images/");
+
+                riversRef.putFile(mImageUri);
             }
         });
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFileChooser();
@@ -110,7 +122,7 @@ public class CreateNewsFragment extends Fragment {
         {
             mImageUri = data.getData();
 
-            imageButton.setImageURI(mImageUri);
+            imageView.setImageURI(mImageUri);
         }
     }
 }
