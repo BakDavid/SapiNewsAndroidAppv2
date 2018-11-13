@@ -20,11 +20,8 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText editEmail;
-    EditText editPassword;
-
-    String mEmail;
-    String mPassword;
+    public String phoneNumberPrefix = "+4";
+    public EditText phoneText;
 
     FirebaseAuth mAuth;
 
@@ -35,82 +32,81 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        editEmail = (EditText) findViewById(R.id.email_input);
-        editPassword = (EditText) findViewById(R.id.password_input);
+        phoneText = (EditText) findViewById(R.id.editText_phone_number);
 
-        findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEmail = editEmail.getText().toString();
-                mPassword = editPassword.getText().toString();
+//        findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mEmail = editEmail.getText().toString();
+//                mPassword = editPassword.getText().toString();
+//
+//                loginToApp(mEmail,mPassword);
+//            }
+//        });
 
-                loginToApp(mEmail,mPassword);
-            }
-        });
-
-        findViewById(R.id.register_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(registerIntent);
-                finish();
-            }
-        });
+//        findViewById(R.id.register_button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+//                startActivity(registerIntent);
+//                finish();
+//            }
+//        });
     }
 
 
-    private void loginToApp(String email,String password)
-    {
-        if(validateData(email,password))
-        {
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                //FirebaseUser user = mAuth.getCurrentUser();
-                                //updateUI(user);
-
-                                Intent listIntent = new Intent(LoginActivity.this,ListNewsActivity.class);
-                                startActivity(listIntent);
-                                finish();
-
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                //updateUI(null);
-                            }
-
-                            // ...
-                        }
-                    });
-        }
-
-
-    }
-
-    private boolean validateData(String email, String password)
-    {
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
-
-        if(email.trim().isEmpty())
-        {
-            Toast.makeText(LoginActivity.this,"No email entered!",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if(password.trim().isEmpty())
-        {
-            Toast.makeText(LoginActivity.this,"No password entered!",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if(!pattern.matcher(email).matches())
-        {
-            Toast.makeText(LoginActivity.this,"Email typed wrong!",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-    }
+//    private void loginToApp(String email,String password)
+//    {
+//        if(validateData(email,password))
+//        {
+//            mAuth.signInWithEmailAndPassword(email, password)
+//                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if (task.isSuccessful()) {
+//                                // Sign in success, update UI with the signed-in user's information
+//                                //FirebaseUser user = mAuth.getCurrentUser();
+//                                //updateUI(user);
+//
+//                                Intent listIntent = new Intent(LoginActivity.this,ListNewsActivity.class);
+//                                startActivity(listIntent);
+//                                finish();
+//
+//                            } else {
+//                                // If sign in fails, display a message to the user.
+//                                Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                                //updateUI(null);
+//                            }
+//
+//                            // ...
+//                        }
+//                    });
+//        }
+//
+//
+//    }
+//
+//    private boolean validateData(String email, String password)
+//    {
+//        Pattern pattern = Patterns.EMAIL_ADDRESS;
+//
+//        if(email.trim().isEmpty())
+//        {
+//            Toast.makeText(LoginActivity.this,"No email entered!",Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//        if(password.trim().isEmpty())
+//        {
+//            Toast.makeText(LoginActivity.this,"No password entered!",Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//        if(!pattern.matcher(email).matches())
+//        {
+//            Toast.makeText(LoginActivity.this,"Email typed wrong!",Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
 }
