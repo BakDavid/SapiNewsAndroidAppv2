@@ -1,81 +1,83 @@
 package com.example.pedrohuan.sapinewsandroidappv2.application.models;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 public class User {
 
-    String firstName;
-    String lastName;
-    String email;
-    String address;
-    String phoneNumber;
-    String image;
-    String updated;
-
-    public User(String firstName, String lastName, String email, String address, String phoneNumber, String image, String updated) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.image = image;
-        this.updated = updated;
-    }
+    public String FirstName;
+    public String LastName;
+    public String Email;
+    public String Address;
+    public String PhoneNumber;
+    public String UserImage;
+    public int UserUpdated;
 
     public User() {
     }
 
-    public String getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(String updated) {
-        this.updated = updated;
+    public User(String firstName, String lastName, String email, String address, String phoneNumber, String userImage, int userUpdated) {
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
+        Address = address;
+        PhoneNumber = phoneNumber;
+        UserImage = userImage;
+        UserUpdated = userUpdated;
     }
 
     public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getImage() {
-        return image;
+        return FirstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        FirstName = firstName;
+    }
+
+    public String getLastName() {
+        return LastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        LastName = lastName;
+    }
+
+    public String getEmail() {
+        return Email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        Email = email;
+    }
+
+    public String getAddress() {
+        return Address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        Address = address;
+    }
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        PhoneNumber = phoneNumber;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getUserImage() {
+        return UserImage;
+    }
+
+    public void setUserImage(String userImage) {
+        UserImage = userImage;
+    }
+
+    public int getUserUpdated() {
+        return UserUpdated;
+    }
+
+    public void setUserUpdated(int userUpdated) {
+        UserUpdated = userUpdated;
     }
 }

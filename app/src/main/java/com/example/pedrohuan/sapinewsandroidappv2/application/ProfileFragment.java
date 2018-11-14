@@ -86,12 +86,31 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                muser = dataSnapshot.getValue(User.class);
-                firstNameInput.setText(muser.getFirstName());
-                lastNameInput.setText(muser.getLastName());
-                emailInput.setText(muser.getEmail());
-                phoneNumberInput.setText(muser.getPhoneNumber());
-                addressInput.setText(muser.getAddress());
+
+                //String s = dataSnapshot.getKey();
+
+                String dfirstName = dataSnapshot.child("FirstName").getValue().toString();
+                String dlastName = dataSnapshot.child("LastName").getValue().toString();
+                String demail = dataSnapshot.child("Email").getValue().toString();
+                String daddress = dataSnapshot.child("Address").getValue().toString();
+                String dphoneNumber = dataSnapshot.child("PhoneNumber").getValue().toString();
+                String duserImage = dataSnapshot.child("UserImage").getValue().toString();
+
+                firstNameInput.setText(dfirstName);
+                lastNameInput.setText(dlastName);
+                emailInput.setText(demail);
+                phoneNumberInput.setText(dphoneNumber);
+                addressInput.setText(daddress);
+
+
+                ///????????????????????WHY NOT WORKING??????? ALL NULL ??????????????????????????
+                //muser = dataSnapshot.getValue(User.class);
+                //firstNameInput.setText(muser.getFirstName());
+                //lastNameInput.setText(muser.getLastName());
+                //emailInput.setText(muser.getEmail());
+                //phoneNumberInput.setText(muser.getPhoneNumber());
+                //addressInput.setText(muser.getAddress());
+
             }
 
             @Override
@@ -106,6 +125,7 @@ public class ProfileFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ///Just for testing purposes
                 Toast.makeText(getContext(), muser.getLastName() + " " + muser.getFirstName() + " " + muser.getPhoneNumber(),Toast.LENGTH_LONG).show();
             }
         });
@@ -120,19 +140,22 @@ public class ProfileFragment extends Fragment {
                 mphoneNumber = phoneNumberInput.getText().toString();
                 maddress = addressInput.getText().toString();
 
-                String childRoute = "images/" + userUID + "/profile/" + System.currentTimeMillis();
-
-                myRef.child("First Name").setValue(mfirstName);
-                myRef.child("Last Name").setValue(mlastName);
+                myRef.child("FirstName").setValue(mfirstName);
+                myRef.child("LastName").setValue(mlastName);
                 myRef.child("Email").setValue(memail);
-                myRef.child("Phone Number").setValue(mphoneNumber);
+                myRef.child("PhoneNumber").setValue(mphoneNumber);
                 myRef.child("Address").setValue(maddress);
-                myRef.child("Updated").setValue(System.currentTimeMillis());
-                myRef.child("Image").setValue(childRoute);
+                myRef.child("UserUpdated").setValue(System.currentTimeMillis());
 
-                StorageReference riversRef = mStorageRef.child(childRoute);
+                if(mImageUri != null)
+                {
+                    String childRoute = "images/" + userUID + "/profile/" + System.currentTimeMillis();
+                    myRef.child("UserImage").setValue(childRoute);
 
-                riversRef.putFile(mImageUri);
+                    StorageReference riversRef = mStorageRef.child(childRoute);
+
+                    riversRef.putFile(mImageUri);
+                }
             }
         });
 
