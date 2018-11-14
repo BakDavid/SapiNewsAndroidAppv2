@@ -83,8 +83,8 @@
         android:layout_alignEnd="@+id/create_text"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="50dp"
-        android:layout_marginEnd="-11dp"
-        android:layout_marginBottom="151dp"
+        android:layout_marginEnd="-9dp"
+        android:layout_marginBottom="168dp"
         android:text="Button"
         tools:text="Create" />
 
@@ -94,16 +94,18 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/image_view"
         android:layout_alignTop="@+id/create_button"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="-2dp"
         android:text="Upload Image" />
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignStart="@+id/create_button"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-176dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginStart="-174dp"
+        android:layout_marginBottom="42dp"
         tools:src="@tools:sample/avatars[11]" />
 
 </RelativeLayout>

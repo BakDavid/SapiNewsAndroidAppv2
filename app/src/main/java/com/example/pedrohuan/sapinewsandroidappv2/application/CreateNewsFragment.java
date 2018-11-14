@@ -24,6 +24,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class CreateNewsFragment extends Fragment {
 
+    String userUID = "UID";
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     private StorageReference mStorageRef;
@@ -79,7 +81,9 @@ public class CreateNewsFragment extends Fragment {
                 mphoneNumber = phoneNumberInput.getText().toString();
                 mlocation = locationInput.getText().toString();
 
-                DatabaseReference myRef = database.getReference("news").child("UID");
+                DatabaseReference myRef = database.getReference("news").child(userUID);
+
+                String childRoute = "images/" + userUID + "/news/" + System.currentTimeMillis();
 
                 myRef.child("Title").setValue(mtitle);
                 myRef.child("ShortDescription").setValue(mshortDescription);
@@ -88,8 +92,9 @@ public class CreateNewsFragment extends Fragment {
                 myRef.child("Location").setValue(mlocation);
                 myRef.child("Clicks").setValue(0);
                 myRef.child("Created").setValue(System.currentTimeMillis());
+                myRef.child("Image").setValue(childRoute);
 
-                StorageReference riversRef = mStorageRef.child("images/");
+                StorageReference riversRef = mStorageRef.child(childRoute);
 
                 riversRef.putFile(mImageUri);
             }
