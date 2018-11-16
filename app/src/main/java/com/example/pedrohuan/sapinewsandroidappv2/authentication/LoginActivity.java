@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public String phoneNumberPrefix = "+4";
+    public static String phoneNumberPrefix = "+4";
     public EditText phoneText;
 
     FirebaseAuth mAuth;
