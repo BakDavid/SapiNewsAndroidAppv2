@@ -57,6 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send Code"
+        android:onClick="sendCode"
         app:layout_constraintTop_toBottomOf="@id/linearLayoutPhoneNumber"
         app:layout_constraintBottom_toTopOf="@id/codeText"
         app:layout_constraintLeft_toLeftOf="parent"
