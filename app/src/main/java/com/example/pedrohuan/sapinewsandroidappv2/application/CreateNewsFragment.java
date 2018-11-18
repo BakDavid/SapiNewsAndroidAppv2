@@ -96,6 +96,7 @@ public class CreateNewsFragment extends Fragment {
                     myRef.child("PhoneNumber").setValue(mphoneNumber);
                     myRef.child("Location").setValue(mlocation);
                     myRef.child("Clicks").setValue(0);
+                    myRef.child("Alert").setValue(0);
                     myRef.child("Created").setValue(System.currentTimeMillis());
                     myRef.child("Image").setValue(childRoute);
 
