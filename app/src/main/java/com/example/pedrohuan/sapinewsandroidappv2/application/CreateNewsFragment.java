@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +52,8 @@ public class CreateNewsFragment extends Fragment {
     String mphoneNumber;
     String mlocation;
 
+    boolean imageUploaded = false;
+
     Uri mImageUri;
 
 
@@ -81,22 +84,27 @@ public class CreateNewsFragment extends Fragment {
                 mphoneNumber = phoneNumberInput.getText().toString();
                 mlocation = locationInput.getText().toString();
 
-                DatabaseReference myRef = database.getReference("news").child(userUID);
+                if(validateInputs())
+                {
+                    DatabaseReference myRef = database.getReference("news").child(userUID);
 
-                String childRoute = "images/" + userUID + "/news/" + System.currentTimeMillis();
+                    String childRoute = "images/" + userUID + "/news/" + System.currentTimeMillis();
 
-                myRef.child("Title").setValue(mtitle);
-                myRef.child("ShortDescription").setValue(mshortDescription);
-                myRef.child("LongDescription").setValue(mlongDescription);
-                myRef.child("PhoneNumber").setValue(mphoneNumber);
-                myRef.child("Location").setValue(mlocation);
-                myRef.child("Clicks").setValue(0);
-                myRef.child("Created").setValue(System.currentTimeMillis());
-                myRef.child("Image").setValue(childRoute);
+                    myRef.child("Title").setValue(mtitle);
+                    myRef.child("ShortDescription").setValue(mshortDescription);
+                    myRef.child("LongDescription").setValue(mlongDescription);
+                    myRef.child("PhoneNumber").setValue(mphoneNumber);
+                    myRef.child("Location").setValue(mlocation);
+                    myRef.child("Clicks").setValue(0);
+                    myRef.child("Created").setValue(System.currentTimeMillis());
+                    myRef.child("Image").setValue(childRoute);
 
-                StorageReference riversRef = mStorageRef.child(childRoute);
+                    StorageReference riversRef = mStorageRef.child(childRoute);
 
-                riversRef.putFile(mImageUri);
+                    riversRef.putFile(mImageUri);
+
+                    clearInputs();
+                }
             }
         });
 
@@ -128,6 +136,64 @@ public class CreateNewsFragment extends Fragment {
             mImageUri = data.getData();
 
             imageView.setImageURI(mImageUri);
+
+            imageUploaded = true;
         }
+    }
+
+    private boolean validateInputs()
+    {
+        String phonePattern = "[0-9]+";
+
+        if(mtitle.isEmpty())
+        {
+            Toast.makeText(getContext(), "Title can't be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(mshortDescription.isEmpty())
+        {
+            Toast.makeText(getContext(), "Short description can't be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(mlongDescription.isEmpty())
+        {
+            Toast.makeText(getContext(), "Long description can't be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(mlocation.isEmpty())
+        {
+            Toast.makeText(getContext(), "Location can't be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(mphoneNumber.isEmpty())
+        {
+            Toast.makeText(getContext(), "Phone number can't be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!mphoneNumber.matches(phonePattern))
+        {
+            Toast.makeText(getContext(), "Phone number must only containt numbers!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!imageUploaded)
+        {
+            Toast.makeText(getContext(), "You must upload an image!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void clearInputs()
+    {
+        titleInput.setText("");
+        shortDescriptionInput.setText("");
+        longDescriptionInput.setText("");
+        phoneNumberInput.setText("");
+        locationInput.setText("");
+
+        imageUploaded = false;
+        imageView.setImageURI(null);
+
+        Toast.makeText(getContext(), "New uploaded!", Toast.LENGTH_SHORT).show();
     }
 }

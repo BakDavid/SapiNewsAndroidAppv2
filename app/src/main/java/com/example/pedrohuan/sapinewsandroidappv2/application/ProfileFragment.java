@@ -1,7 +1,10 @@
 package com.example.pedrohuan.sapinewsandroidappv2.application;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,15 +17,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
 import com.example.pedrohuan.sapinewsandroidappv2.application.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -38,14 +50,14 @@ public class ProfileFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    User muser;
+    //User muser;
 
     View fullView;
 
     EditText firstNameInput;
     EditText lastNameInput;
     EditText emailInput;
-    EditText phoneNumberInput;
+    //EditText phoneNumberInput;
     EditText addressInput;
 
     Button logoutButton;
@@ -61,6 +73,8 @@ public class ProfileFragment extends Fragment {
 
     Uri mImageUri;
 
+    boolean photoChanged = false;
+
 
     @Nullable
     @Override
@@ -72,7 +86,7 @@ public class ProfileFragment extends Fragment {
         firstNameInput = (EditText) fullView.findViewById(R.id.first_name_input);
         lastNameInput = (EditText) fullView.findViewById(R.id.last_name_input);
         emailInput = (EditText) fullView.findViewById(R.id.email_input);
-        phoneNumberInput = (EditText) fullView.findViewById(R.id.phone_number_input);
+        //phoneNumberInput = (EditText) fullView.findViewById(R.id.phone_number_input);
         addressInput = (EditText) fullView.findViewById(R.id.address_input);
 
         logoutButton = (Button) fullView.findViewById(R.id.logout_button);
@@ -93,14 +107,40 @@ public class ProfileFragment extends Fragment {
                 String dlastName = dataSnapshot.child("LastName").getValue().toString();
                 String demail = dataSnapshot.child("Email").getValue().toString();
                 String daddress = dataSnapshot.child("Address").getValue().toString();
-                String dphoneNumber = dataSnapshot.child("PhoneNumber").getValue().toString();
+                //String dphoneNumber = dataSnapshot.child("PhoneNumber").getValue().toString();
                 String duserImage = dataSnapshot.child("UserImage").getValue().toString();
 
                 firstNameInput.setText(dfirstName);
                 lastNameInput.setText(dlastName);
                 emailInput.setText(demail);
-                phoneNumberInput.setText(dphoneNumber);
+                //phoneNumberInput.setText(dphoneNumber);
                 addressInput.setText(daddress);
+
+                if(duserImage != null && !(duserImage.trim().isEmpty()))
+                {
+
+                    mStorageRef.child(duserImage).getDownloadUrl()
+                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Successfully downloaded data to local file
+                                    // ...
+                                    //mImageUri = uri;
+
+                                    Glide.with(getContext())
+                                            .load(uri)
+                                            .into(profileImageInput);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle failed download
+                            // ...
+                            Toast.makeText(getContext(), "Image load failed!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
 
 
                 ///????????????????????WHY NOT WORKING??????? ALL NULL ??????????????????????????
@@ -125,8 +165,7 @@ public class ProfileFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ///Just for testing purposes
-                Toast.makeText(getContext(), muser.getLastName() + " " + muser.getFirstName() + " " + muser.getPhoneNumber(),Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -137,24 +176,30 @@ public class ProfileFragment extends Fragment {
                 mfirstName = firstNameInput.getText().toString();
                 mlastName = lastNameInput.getText().toString();
                 memail = emailInput.getText().toString();
-                mphoneNumber = phoneNumberInput.getText().toString();
+                //mphoneNumber = phoneNumberInput.getText().toString();
                 maddress = addressInput.getText().toString();
 
-                myRef.child("FirstName").setValue(mfirstName);
-                myRef.child("LastName").setValue(mlastName);
-                myRef.child("Email").setValue(memail);
-                myRef.child("PhoneNumber").setValue(mphoneNumber);
-                myRef.child("Address").setValue(maddress);
-                myRef.child("UserUpdated").setValue(System.currentTimeMillis());
-
-                if(mImageUri != null)
+                if(validateInputs())
                 {
-                    String childRoute = "images/" + userUID + "/profile/" + System.currentTimeMillis();
-                    myRef.child("UserImage").setValue(childRoute);
+                    myRef.child("FirstName").setValue(mfirstName);
+                    myRef.child("LastName").setValue(mlastName);
+                    myRef.child("Email").setValue(memail);
+                    //myRef.child("PhoneNumber").setValue(mphoneNumber);
+                    myRef.child("Address").setValue(maddress);
+                    myRef.child("UserUpdated").setValue(System.currentTimeMillis());
 
-                    StorageReference riversRef = mStorageRef.child(childRoute);
+                    if(photoChanged)
+                    {
+                        //Might have to change the +.jpg to a function that detects file type (mime)
+                        String childRoute = "images/" + userUID + "/profile/" + System.currentTimeMillis() + ".jpg";
 
-                    riversRef.putFile(mImageUri);
+                        StorageReference riversRef = mStorageRef.child(childRoute);
+
+                        riversRef.putFile(mImageUri);
+
+                        myRef.child("UserImage").setValue(childRoute);
+                    }
+                    Toast.makeText(getContext(), "Profile updated", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -185,7 +230,53 @@ public class ProfileFragment extends Fragment {
         {
             mImageUri = data.getData();
 
-            profileImageInput.setImageURI(mImageUri);
+            Glide.with(getContext())
+                    .load(mImageUri)
+                    .into(profileImageInput);
+
+            photoChanged = true;
+            //profileImageInput.setImageURI(mImageUri);
+
         }
     }
+
+    private boolean validateInputs()
+    {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String namePattern = "[A-Z]{1}[a-z]+";
+
+        if(mfirstName.isEmpty())
+        {
+            Toast.makeText(getContext(), "First name can't be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(mlastName.isEmpty())
+        {
+            Toast.makeText(getContext(), "Last name can't be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!mfirstName.matches(namePattern) || !mlastName.matches(namePattern))
+        {
+            Toast.makeText(getContext(), "Name should start with capital letters!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(memail.isEmpty())
+        {
+            Toast.makeText(getContext(), "Email can't be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!memail.matches(emailPattern))
+        {
+            Toast.makeText(getContext(), "Not a valid email!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(maddress.isEmpty())
+        {
+            Toast.makeText(getContext(), "Address can't be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
 }
