@@ -1,5 +1,6 @@
 package com.example.pedrohuan.sapinewsandroidappv2.authentication;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.pedrohuan.sapinewsandroidappv2.MainActivity;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
+import com.example.pedrohuan.sapinewsandroidappv2.application.ListNewsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -31,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText codeText;
     private Button verifyButton;
     private Button sendButton;
-    private TextView statusText;
 
     public static String phoneNumberPrefix = "+4";
 
@@ -62,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     public void sendCode(View view) {
         String phoneNumber = phoneNumberPrefix + phoneText.getText().toString();
 
+        verifyButton.setEnabled(true);
         setUpVerificationCallbacks();
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -77,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(PhoneAuthCredential credential) {
-                        verifyButton.setEnabled(false);
+                        verifyButton.setEnabled(true);
                         codeText.setText("");
                         signInWithPhoneAutchCredential(credential);
                     }
@@ -108,6 +111,10 @@ public class LoginActivity extends AppCompatActivity {
         PhoneAuthCredential credential =
                 PhoneAuthProvider.getCredential(phoneVerificationId, code);
         signInWithPhoneAutchCredential(credential);
+
+        Intent intent = new Intent(LoginActivity.this,ListNewsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void signInWithPhoneAutchCredential(PhoneAuthCredential credential) {
@@ -117,8 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             codeText.setText("");
-                            statusText.setText("Signed In");
-                            verifyButton.setEnabled(false);
+                            verifyButton.setEnabled(true);
                             FirebaseUser user = task.getResult().getUser();
 
                         } else {

@@ -81,6 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verify Code"
+        android:onClick="verifyCode"
         app:layout_constraintTop_toBottomOf="@id/codeText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
