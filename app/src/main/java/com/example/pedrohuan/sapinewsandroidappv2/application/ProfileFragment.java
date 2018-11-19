@@ -46,6 +46,8 @@ public class ProfileFragment extends Fragment {
 
     DatabaseReference myRef = database.getReference("users").child(userUID);
 
+    DatabaseReference myRefNews = database.getReference("news").child(userUID);
+
     private StorageReference mStorageRef;
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -125,8 +127,6 @@ public class ProfileFragment extends Fragment {
                                 public void onSuccess(Uri uri) {
                                     // Successfully downloaded data to local file
                                     // ...
-                                    //mImageUri = uri;
-
                                     Glide.with(getContext())
                                             .load(uri)
                                             .into(profileImageInput);
@@ -139,7 +139,6 @@ public class ProfileFragment extends Fragment {
                             Toast.makeText(getContext(), "Image load failed!", Toast.LENGTH_SHORT).show();
                         }
                     });
-
                 }
 
 
@@ -187,6 +186,8 @@ public class ProfileFragment extends Fragment {
                     //myRef.child("PhoneNumber").setValue(mphoneNumber);
                     myRef.child("Address").setValue(maddress);
                     myRef.child("UserUpdated").setValue(System.currentTimeMillis());
+
+                    myRefNews.child("FullName").setValue(mfirstName + " " + mlastName);
 
                     if(photoChanged)
                     {

@@ -16,8 +16,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -86,9 +89,28 @@ public class CreateNewsFragment extends Fragment {
 
                 if(validateInputs())
                 {
-                    DatabaseReference myRef = database.getReference("news").child(userUID);
+                    final DatabaseReference myRef = database.getReference("news").child(userUID);
+                    DatabaseReference myRefUser = database.getReference("users").child(userUID);
 
-                    String childRoute = "images/" + userUID + "/news/" + System.currentTimeMillis();
+                    myRefUser.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            String mfirstName = dataSnapshot.child("FirstName").getValue().toString();
+                            String mlastName = dataSnapshot.child("LastName").getValue().toString();
+
+                            String fullName = mfirstName + " " + mlastName;
+
+                            myRef.child("FullName").setValue(fullName);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(getContext(), "Failed to get users full name!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    String childRoute = "images/" + userUID + "/news/" + System.currentTimeMillis() + ".jpg";
 
                     myRef.child("Title").setValue(mtitle);
                     myRef.child("ShortDescription").setValue(mshortDescription);
@@ -98,6 +120,7 @@ public class CreateNewsFragment extends Fragment {
                     myRef.child("Clicks").setValue(0);
                     myRef.child("Alert").setValue(0);
                     myRef.child("Created").setValue(System.currentTimeMillis());
+                    myRef.child("CreatedUser").setValue(userUID);
                     myRef.child("Image").setValue(childRoute);
 
                     StorageReference riversRef = mStorageRef.child(childRoute);

@@ -9,10 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
 import com.example.pedrohuan.sapinewsandroidappv2.application.adapter_and_item.ListItem;
 import com.example.pedrohuan.sapinewsandroidappv2.application.adapter_and_item.NewsAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +32,10 @@ public class ListNewsFragment extends Fragment {
 
     private List<ListItem> listItems;
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    final DatabaseReference myRef = database.getReference("news");
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,21 +48,35 @@ public class ListNewsFragment extends Fragment {
 
         listItems = new ArrayList<>();
 
-        for(int i = 0; i< 10;i++)
-        {
-            ListItem listItem = new ListItem(
-                    "Ez egy buzi rovid leiras: " + i,
-                    "Bak David " + i,
-                    "" + i,
-                    null
-            );
+        //Get the data from database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-            listItems.add(listItem);
-        }
+                listItems.clear();
 
-        adapter = new NewsAdapter(listItems,getContext());
+                for(DataSnapshot ds : dataSnapshot.getChildren())
+                {
+                    String clicks = ds.child("Clicks").getValue().toString();
+                    String shortDescription = ds.child("ShortDescription").getValue().toString();
+                    String uploadedImage = ds.child("Image").getValue().toString();
+                    String creatorName = ds.child("FullName").getValue().toString();
 
-        recyclerView.setAdapter(adapter);
+                    ListItem listItem = new ListItem(shortDescription,creatorName,clicks,uploadedImage,null);
+
+                    listItems.add(listItem);
+                }
+
+                adapter = new NewsAdapter(listItems,getContext());
+
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Failed to load data!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return fullView;
     }

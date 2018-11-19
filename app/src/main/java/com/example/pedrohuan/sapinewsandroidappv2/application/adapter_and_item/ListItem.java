@@ -9,16 +9,18 @@ public class ListItem {
     private String shortDescription;
     private String creatorName;
     private String clicks;
-    private Uri uploadedImage;
+    private String uploadedImage;
+    private String profileImage;
 
     public ListItem() {
     }
 
-    public ListItem(String shortDescription, String creatorName, String clicks, Uri uploadedImage) {
+    public ListItem(String shortDescription, String creatorName, String clicks, String uploadedImage, String profileImage) {
         this.shortDescription = shortDescription;
         this.creatorName = creatorName;
         this.clicks = clicks;
         this.uploadedImage = uploadedImage;
+        this.profileImage = profileImage;
     }
 
     public String getShortDescription() {
@@ -45,11 +47,19 @@ public class ListItem {
         this.clicks = clicks;
     }
 
-    public Uri getUploadedImage() {
+    public String getUploadedImage() {
         return uploadedImage;
     }
 
-    public void setUploadedImage(Uri uploadedImage) {
+    public void setUploadedImage(String uploadedImage) {
         this.uploadedImage = uploadedImage;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }
