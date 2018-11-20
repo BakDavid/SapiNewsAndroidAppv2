@@ -6,60 +6,122 @@ import android.widget.TextView;
 
 public class ListItem {
 
-    private String shortDescription;
-    private String creatorName;
-    private String clicks;
-    private String uploadedImage;
-    private String profileImage;
+    private Long Alert;
+    private Long Clicks;
+    private Long Created;
+    private String CreatedUser;
+    private String FullName;
+    private String UploadedImage;
+    private String Location;
+    private String LongDescription;
+    private String PhoneNumber;
+    private String ShortDescription;
+    private String Title;
+
+    //private String profileImage;
 
     public ListItem() {
     }
 
-    public ListItem(String shortDescription, String creatorName, String clicks, String uploadedImage, String profileImage) {
-        this.shortDescription = shortDescription;
-        this.creatorName = creatorName;
-        this.clicks = clicks;
-        this.uploadedImage = uploadedImage;
-        this.profileImage = profileImage;
+    public ListItem(Long alert, Long clicks, Long created, String createdUser, String fullName, String uploadedImage, String location, String longDescription, String phoneNumber, String shortDescription, String title) {
+        Alert = alert;
+        Clicks = clicks;
+        Created = created;
+        CreatedUser = createdUser;
+        FullName = fullName;
+        UploadedImage = uploadedImage;
+        Location = location;
+        LongDescription = longDescription;
+        PhoneNumber = phoneNumber;
+        ShortDescription = shortDescription;
+        Title = title;
     }
 
-    public String getShortDescription() {
-        return shortDescription;
+    public Long getAlert() {
+        return Alert;
     }
 
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+    public void setAlert(Long alert) {
+        Alert = alert;
     }
 
-    public String getCreatorName() {
-        return creatorName;
+    public Long getClicks() {
+        return Clicks;
     }
 
-    public void setCreatorName(String creatorName) {
-        this.creatorName = creatorName;
+    public void setClicks(Long clicks) {
+        Clicks = clicks;
     }
 
-    public String getClicks() {
-        return clicks;
+    public Long getCreated() {
+        return Created;
     }
 
-    public void setClicks(String clicks) {
-        this.clicks = clicks;
+    public void setCreated(Long created) {
+        Created = created;
+    }
+
+    public String getCreatedUser() {
+        return CreatedUser;
+    }
+
+    public void setCreatedUser(String createdUser) {
+        CreatedUser = createdUser;
+    }
+
+    public String getFullName() {
+        return FullName;
+    }
+
+    public void setFullName(String fullName) {
+        FullName = fullName;
     }
 
     public String getUploadedImage() {
-        return uploadedImage;
+        return UploadedImage;
     }
 
     public void setUploadedImage(String uploadedImage) {
-        this.uploadedImage = uploadedImage;
+        UploadedImage = uploadedImage;
     }
 
-    public String getProfileImage() {
-        return profileImage;
+    public String getLocation() {
+        return Location;
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
+    public void setLocation(String location) {
+        Location = location;
+    }
+
+    public String getLongDescription() {
+        return LongDescription;
+    }
+
+    public void setLongDescription(String longDescription) {
+        LongDescription = longDescription;
+    }
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        PhoneNumber = phoneNumber;
+    }
+
+    public String getShortDescription() {
+        return ShortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        ShortDescription = shortDescription;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
     }
 }

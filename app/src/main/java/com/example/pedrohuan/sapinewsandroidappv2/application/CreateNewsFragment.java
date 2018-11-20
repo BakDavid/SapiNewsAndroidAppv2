@@ -121,7 +121,7 @@ public class CreateNewsFragment extends Fragment {
                     myRef.child("Alert").setValue(0);
                     myRef.child("Created").setValue(System.currentTimeMillis());
                     myRef.child("CreatedUser").setValue(userUID);
-                    myRef.child("Image").setValue(childRoute);
+                    myRef.child("UploadedImage").setValue(childRoute);
 
                     StorageReference riversRef = mStorageRef.child(childRoute);
 

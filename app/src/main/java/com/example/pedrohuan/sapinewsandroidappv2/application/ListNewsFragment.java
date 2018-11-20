@@ -57,12 +57,14 @@ public class ListNewsFragment extends Fragment {
 
                 for(DataSnapshot ds : dataSnapshot.getChildren())
                 {
-                    String clicks = ds.child("Clicks").getValue().toString();
-                    String shortDescription = ds.child("ShortDescription").getValue().toString();
-                    String uploadedImage = ds.child("Image").getValue().toString();
-                    String creatorName = ds.child("FullName").getValue().toString();
+                    ListItem listItem = ds.getValue(ListItem.class);
 
-                    ListItem listItem = new ListItem(shortDescription,creatorName,clicks,uploadedImage,null);
+                    //String clicks = ds.child("Clicks").getValue().toString();
+                    //String shortDescription = ds.child("ShortDescription").getValue().toString();
+                    //String uploadedImage = ds.child("Image").getValue().toString();
+                    //String creatorName = ds.child("FullName").getValue().toString();
+
+                    //ListItem listItem = new ListItem(shortDescription,creatorName,clicks,uploadedImage,null);
 
                     listItems.add(listItem);
                 }
