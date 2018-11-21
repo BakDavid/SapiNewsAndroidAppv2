@@ -67,14 +67,6 @@
           }
         },
         {
-          "client_id": "790723857984-fpj1pq8jvg4jkqbd56l9e0417df1j61f.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.pedrohuan.sapinewsandroidappv2",
-            "certificate_hash": "7e0d56ad3c74aecf072d46fa00d7ad797f0f77e3"
-          }
-        },
-        {
           "client_id": "790723857984-9sil9h4ecjrlli56mh978fevo0ahidl2.apps.googleusercontent.com",
           "client_type": 3
         }
