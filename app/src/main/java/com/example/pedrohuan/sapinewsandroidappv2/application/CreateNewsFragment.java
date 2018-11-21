@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +29,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class CreateNewsFragment extends Fragment {
 
-    String userUID = "UID";
+    String userUID = FirebaseAuth.getInstance().getUid();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 

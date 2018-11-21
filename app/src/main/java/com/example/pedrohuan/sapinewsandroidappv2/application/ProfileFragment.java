@@ -22,6 +22,7 @@ import com.example.pedrohuan.sapinewsandroidappv2.R;
 import com.example.pedrohuan.sapinewsandroidappv2.application.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,11 +41,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
-    String userUID = "UID";
+    String userUID = FirebaseAuth.getInstance().getUid();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    DatabaseReference myRef = database.getReference("users").child(userUID);
+    DatabaseReference myRef = database.getReference("users");
 
     DatabaseReference myRefNews = database.getReference("news").child(userUID);
 
@@ -102,44 +103,47 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-
-                //String s = dataSnapshot.getKey();
-
-                String dfirstName = dataSnapshot.child("FirstName").getValue().toString();
-                String dlastName = dataSnapshot.child("LastName").getValue().toString();
-                String demail = dataSnapshot.child("Email").getValue().toString();
-                String daddress = dataSnapshot.child("Address").getValue().toString();
-                //String dphoneNumber = dataSnapshot.child("PhoneNumber").getValue().toString();
-                String duserImage = dataSnapshot.child("UserImage").getValue().toString();
-
-                firstNameInput.setText(dfirstName);
-                lastNameInput.setText(dlastName);
-                emailInput.setText(demail);
-                //phoneNumberInput.setText(dphoneNumber);
-                addressInput.setText(daddress);
-
-                if(duserImage != null && !(duserImage.trim().isEmpty()))
+                if(dataSnapshot.hasChild(userUID))
                 {
+                    String dfirstName = dataSnapshot.child(userUID).child("FirstName").getValue().toString();
+                    String dlastName = dataSnapshot.child(userUID).child("LastName").getValue().toString();
+                    String demail = dataSnapshot.child(userUID).child("Email").getValue().toString();
+                    String daddress = dataSnapshot.child(userUID).child("Address").getValue().toString();
+                    //String dphoneNumber = dataSnapshot.child(userUID).child("PhoneNumber").getValue().toString();
+                    String duserImage = dataSnapshot.child(userUID).child("UserImage").getValue().toString();
 
-                    mStorageRef.child(duserImage).getDownloadUrl()
-                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    // Successfully downloaded data to local file
-                                    // ...
-                                    Glide.with(getContext())
-                                            .load(uri)
-                                            .into(profileImageInput);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle failed download
-                            // ...
-                            Toast.makeText(getContext(), "Image load failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    firstNameInput.setText(dfirstName);
+                    lastNameInput.setText(dlastName);
+                    emailInput.setText(demail);
+                    //phoneNumberInput.setText(dphoneNumber);
+                    addressInput.setText(daddress);
+
+                    if(duserImage != null && !(duserImage.trim().isEmpty()))
+                    {
+
+                        mStorageRef.child(duserImage).getDownloadUrl()
+                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        // Successfully downloaded data to local file
+                                        // ...
+                                        Glide.with(getContext())
+                                                .load(uri)
+                                                .into(profileImageInput);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle failed download
+                                // ...
+                                Toast.makeText(getContext(), "Image load failed!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
+
+
+
 
 
                 ///????????????????????WHY NOT WORKING??????? ALL NULL ??????????????????????????
@@ -164,7 +168,7 @@ public class ProfileFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FirebaseAuth.getInstance().signOut();
             }
         });
 
@@ -180,12 +184,12 @@ public class ProfileFragment extends Fragment {
 
                 if(validateInputs())
                 {
-                    myRef.child("FirstName").setValue(mfirstName);
-                    myRef.child("LastName").setValue(mlastName);
-                    myRef.child("Email").setValue(memail);
-                    //myRef.child("PhoneNumber").setValue(mphoneNumber);
-                    myRef.child("Address").setValue(maddress);
-                    myRef.child("UserUpdated").setValue(System.currentTimeMillis());
+                    myRef.child(userUID).child("FirstName").setValue(mfirstName);
+                    myRef.child(userUID).child("LastName").setValue(mlastName);
+                    myRef.child(userUID).child("Email").setValue(memail);
+                    //myRef.child(userUID).child("PhoneNumber").setValue(mphoneNumber);
+                    myRef.child(userUID).child("Address").setValue(maddress);
+                    myRef.child(userUID).child("UserUpdated").setValue(System.currentTimeMillis());
 
                     myRefNews.child("FullName").setValue(mfirstName + " " + mlastName);
 
@@ -198,7 +202,7 @@ public class ProfileFragment extends Fragment {
 
                         riversRef.putFile(mImageUri);
 
-                        myRef.child("UserImage").setValue(childRoute);
+                        myRef.child(userUID).child("UserImage").setValue(childRoute);
                     }
                     Toast.makeText(getContext(), "Profile updated", Toast.LENGTH_SHORT).show();
                 }
@@ -236,8 +240,6 @@ public class ProfileFragment extends Fragment {
                     .into(profileImageInput);
 
             photoChanged = true;
-            //profileImageInput.setImageURI(mImageUri);
-
         }
     }
 

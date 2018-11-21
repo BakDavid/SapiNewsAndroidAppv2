@@ -8,11 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.example.pedrohuan.sapinewsandroidappv2.MainActivity;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
-import com.example.pedrohuan.sapinewsandroidappv2.application.ListNewsActivity;
+import com.example.pedrohuan.sapinewsandroidappv2.application.Main2Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -112,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                 PhoneAuthProvider.getCredential(phoneVerificationId, code);
         signInWithPhoneAutchCredential(credential);
 
-        Intent intent = new Intent(LoginActivity.this,ListNewsActivity.class);
+        Intent intent = new Intent(LoginActivity.this,Main2Activity.class);
         startActivity(intent);
         finish();
     }
