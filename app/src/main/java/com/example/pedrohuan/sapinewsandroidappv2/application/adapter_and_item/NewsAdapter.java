@@ -24,6 +24,11 @@ import com.example.pedrohuan.sapinewsandroidappv2.application.DetailedFragment;
 import com.example.pedrohuan.sapinewsandroidappv2.application.Main2Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -33,16 +38,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    DatabaseReference myref = database.getReference().child("news");
+    DatabaseReference myrefUser = database.getReference().child("users");
+
     private List<ListItem> listitems;
+    private List<String> newKey;
     private Context context;
 
     private StorageReference mStorageRef;
 
-    public Uri uImage;
-    public Uri pImage;
+    private String profileImage;
 
-    public NewsAdapter(List<ListItem> listitems, Context context) {
+    public NewsAdapter(List<ListItem> listitems,List<String> newKey, Context context) {
         this.listitems = listitems;
+        this.newKey = newKey;
         this.context = context;
     }
 
@@ -57,6 +68,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final NewsAdapter.ViewHolder viewHolder, int i) {
         final ListItem listitem = listitems.get(i);
+        final String newsKey = newKey.get(i);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
@@ -68,7 +80,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         mStorageRef.child(listitem.getUploadedImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                uImage = uri;
                 drawWithGlide(context,uri,viewHolder.uploadedImage);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -79,13 +90,38 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         });
 
         //Get image for user profile here !!!!!!!!!!!!!!!!!!
-        Glide.with(context)
-                .load("https://post-phinf.pstatic.net/MjAxODA3MTFfOTYg/MDAxNTMxMzE3Mzg0Nzk1.d_buEM661Ys0LycI7u6OnbD2aCbrePP1M9WYnklY0UQg.LsS1HSr0bAByWtlHpy0AFzOmcL7aazmiqLRrt66gZgMg.JPEG/IBVmYy8g1ScRt2LXh4qNrKP8qW-0.jpg?type=f200_200")
-                .into(viewHolder.profileImage);
+        myrefUser.child(listitem.getCreatedUser()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                profileImage = dataSnapshot.child("UserImage").getValue().toString();
+
+                mStorageRef.child(profileImage).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(context)
+                                .load(uri)
+                                .into(viewHolder.profileImage);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Failed to load image!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(context, "Failed to get profile image!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                myref.child(newsKey).child("Clicks").setValue(listitem.getClicks() + 1);
+
                 Fragment detailedFragment = DetailedFragment.newInstance(listitem);
 
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,detailedFragment).commit();

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
 import com.example.pedrohuan.sapinewsandroidappv2.application.models.User;
+import com.example.pedrohuan.sapinewsandroidappv2.authentication.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,8 +47,6 @@ public class ProfileFragment extends Fragment {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     DatabaseReference myRef = database.getReference("users");
-
-    DatabaseReference myRefNews = database.getReference("news").child(userUID);
 
     private StorageReference mStorageRef;
 
@@ -110,41 +109,40 @@ public class ProfileFragment extends Fragment {
                     String demail = dataSnapshot.child(userUID).child("Email").getValue().toString();
                     String daddress = dataSnapshot.child(userUID).child("Address").getValue().toString();
                     //String dphoneNumber = dataSnapshot.child(userUID).child("PhoneNumber").getValue().toString();
-                    String duserImage = dataSnapshot.child(userUID).child("UserImage").getValue().toString();
+                    if(dataSnapshot.hasChild(userUID + "/UserImage"))
+                    {
+                        String duserImage = dataSnapshot.child(userUID).child("UserImage").getValue().toString();
+
+                        if(duserImage != null && !(duserImage.trim().isEmpty()))
+                        {
+
+                            mStorageRef.child(duserImage).getDownloadUrl()
+                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            // Successfully downloaded data to local file
+                                            // ...
+                                            Glide.with(getContext())
+                                                    .load(uri)
+                                                    .into(profileImageInput);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle failed download
+                                    // ...
+                                    Toast.makeText(getContext(), "Image load failed!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
 
                     firstNameInput.setText(dfirstName);
                     lastNameInput.setText(dlastName);
                     emailInput.setText(demail);
                     //phoneNumberInput.setText(dphoneNumber);
                     addressInput.setText(daddress);
-
-                    if(duserImage != null && !(duserImage.trim().isEmpty()))
-                    {
-
-                        mStorageRef.child(duserImage).getDownloadUrl()
-                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        // Successfully downloaded data to local file
-                                        // ...
-                                        Glide.with(getContext())
-                                                .load(uri)
-                                                .into(profileImageInput);
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle failed download
-                                // ...
-                                Toast.makeText(getContext(), "Image load failed!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
                 }
-
-
-
-
 
                 ///????????????????????WHY NOT WORKING??????? ALL NULL ??????????????????????????
                 //muser = dataSnapshot.getValue(User.class);
@@ -169,6 +167,10 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+
+                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -190,8 +192,6 @@ public class ProfileFragment extends Fragment {
                     //myRef.child(userUID).child("PhoneNumber").setValue(mphoneNumber);
                     myRef.child(userUID).child("Address").setValue(maddress);
                     myRef.child(userUID).child("UserUpdated").setValue(System.currentTimeMillis());
-
-                    myRefNews.child("FullName").setValue(mfirstName + " " + mlastName);
 
                     if(photoChanged)
                     {

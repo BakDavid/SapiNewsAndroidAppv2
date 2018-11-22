@@ -31,6 +31,7 @@ public class ListNewsFragment extends Fragment {
     private RecyclerView.Adapter adapter;
 
     private List<ListItem> listItems;
+    private List<String> newKeys;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -47,6 +48,7 @@ public class ListNewsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         listItems = new ArrayList<>();
+        newKeys = new ArrayList<>();
 
         //Get the data from database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -59,6 +61,8 @@ public class ListNewsFragment extends Fragment {
                 {
                     ListItem listItem = ds.getValue(ListItem.class);
 
+                    String newKey = ds.getKey();
+
                     //String clicks = ds.child("Clicks").getValue().toString();
                     //String shortDescription = ds.child("ShortDescription").getValue().toString();
                     //String uploadedImage = ds.child("Image").getValue().toString();
@@ -67,9 +71,10 @@ public class ListNewsFragment extends Fragment {
                     //ListItem listItem = new ListItem(shortDescription,creatorName,clicks,uploadedImage,null);
 
                     listItems.add(listItem);
+                    newKeys.add(newKey);
                 }
 
-                adapter = new NewsAdapter(listItems,getContext());
+                adapter = new NewsAdapter(listItems,newKeys,getContext());
 
                 recyclerView.setAdapter(adapter);
             }

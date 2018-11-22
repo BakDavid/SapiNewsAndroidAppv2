@@ -90,7 +90,7 @@ public class CreateNewsFragment extends Fragment {
 
                 if(validateInputs())
                 {
-                    final DatabaseReference myRef = database.getReference("news").child(userUID);
+                    final DatabaseReference myRef = database.getReference("news").child(userUID + System.currentTimeMillis());
                     DatabaseReference myRefUser = database.getReference("users").child(userUID);
 
                     myRefUser.addValueEventListener(new ValueEventListener() {
