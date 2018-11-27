@@ -168,7 +168,7 @@ public class CreateNewsFragment extends Fragment {
 
     private boolean validateInputs()
     {
-        String phonePattern = "[0-9]+";
+        String phonePattern = "07[0-9]{8}";
 
         if(mtitle.isEmpty())
         {
@@ -197,7 +197,7 @@ public class CreateNewsFragment extends Fragment {
         }
         if(!mphoneNumber.matches(phonePattern))
         {
-            Toast.makeText(getContext(), "Phone number must only containt numbers!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Phone number must be a valid phone number!", Toast.LENGTH_SHORT).show();
             return false;
         }
         if(!imageUploaded)
