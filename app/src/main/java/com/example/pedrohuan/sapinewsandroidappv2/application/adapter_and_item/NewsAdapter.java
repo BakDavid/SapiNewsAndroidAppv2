@@ -122,7 +122,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
                 myref.child(newsKey).child("Clicks").setValue(listitem.getClicks() + 1);
 
-                Fragment detailedFragment = DetailedFragment.newInstance(listitem);
+                Fragment detailedFragment = DetailedFragment.newInstance(listitem,newsKey);
 
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,detailedFragment).commit();
             }

@@ -1,10 +1,14 @@
 package com.example.pedrohuan.sapinewsandroidappv2.application;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,9 @@ import com.example.pedrohuan.sapinewsandroidappv2.R;
 import com.example.pedrohuan.sapinewsandroidappv2.application.adapter_and_item.ListItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -32,10 +39,15 @@ import org.w3c.dom.Text;
  * create an instance of this fragment.
  */
 public class DetailedFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
+    //Database
+    String userUID = FirebaseAuth.getInstance().getUid();
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    DatabaseReference myRef = database.getReference("news");
+
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String mAlert = "alerts";
     private static final String mClicks = "clicks";
     private static final String mCreated = "created";
@@ -47,6 +59,7 @@ public class DetailedFragment extends Fragment {
     private static final String mPhoneNumber = "phone_number";
     private static final String mShortDescription = "short_description";
     private static final String mTitle = "title";
+    private static final String mNewsKey = "newsKey";
 
     private Long Alert;
     private Long Clicks;
@@ -59,6 +72,7 @@ public class DetailedFragment extends Fragment {
     private String PhoneNumber;
     private String ShortDescription;
     private String Title;
+    private String NewsKey;
 
     TextView textTitle;
     TextView textFullName;
@@ -69,6 +83,8 @@ public class DetailedFragment extends Fragment {
     ImageView imageUploadedImage;
 
     Button alertButton;
+    Button deleteButton;
+    Button shareButton;
 
     private StorageReference mStorageRef;
 
@@ -85,7 +101,7 @@ public class DetailedFragment extends Fragment {
      *
      * @return A new instance of fragment DetailedFragment.
      */
-    public static DetailedFragment newInstance(ListItem listItem) {
+    public static DetailedFragment newInstance(ListItem listItem,String newsKey) {
         DetailedFragment fragment = new DetailedFragment();
         Bundle args = new Bundle();
         args.putString(mCreatedUser,listItem.getCreatedUser());
@@ -99,6 +115,7 @@ public class DetailedFragment extends Fragment {
         args.putString(mPhoneNumber,listItem.getPhoneNumber());
         args.putString(mShortDescription,listItem.getShortDescription());
         args.putString(mTitle,listItem.getTitle());
+        args.putString(mNewsKey,newsKey);
         fragment.setArguments(args);
         return fragment;
     }
@@ -118,6 +135,8 @@ public class DetailedFragment extends Fragment {
             PhoneNumber = getArguments().getString(mPhoneNumber);
             ShortDescription = getArguments().getString(mShortDescription);
             Title = getArguments().getString(mTitle);
+            NewsKey = getArguments().getString(mNewsKey);
+
         }
     }
 
@@ -138,6 +157,8 @@ public class DetailedFragment extends Fragment {
         imageUploadedImage = (ImageView) fullview.findViewById(R.id.uploaded_image);
 
         alertButton = (Button) fullview.findViewById(R.id.alert_button);
+        deleteButton = (Button) fullview.findViewById(R.id.delete_button);
+        shareButton = (Button) fullview.findViewById(R.id.share_button);
 
         textTitle.setText(Title);
         textPhoneNumber.setText(PhoneNumber);
@@ -168,6 +189,43 @@ public class DetailedFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        if(userUID.matches(CreatedUser))
+        {
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("Do you want to delete the new?");
+                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            myRef.child(NewsKey).removeValue();
+
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ListNewsFragment()).commit();
+                        }
+                    });
+                    alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    alertDialog.create();
+                    alertDialog.show();
+                }
+            });
+        }
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareIt();
             }
         });
 
@@ -203,5 +261,15 @@ public class DetailedFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void shareIt()
+    {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = "Here is the share content body";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 }

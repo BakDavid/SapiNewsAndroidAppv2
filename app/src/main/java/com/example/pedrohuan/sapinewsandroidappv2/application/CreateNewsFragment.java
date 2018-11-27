@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -78,6 +82,8 @@ public class CreateNewsFragment extends Fragment {
         createButton = (Button) fullView.findViewById(R.id.create_button);
         uploadImageButton = (Button) fullView.findViewById(R.id.image_upload_button);
 
+        final BottomNavigationView bottom_nav = fullView.findViewById(R.id.bottom_navigation);
+
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,9 +132,21 @@ public class CreateNewsFragment extends Fragment {
 
                     StorageReference riversRef = mStorageRef.child(childRoute);
 
-                    riversRef.putFile(mImageUri);
+                    riversRef.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    clearInputs();
+                            bottom_nav.setSelectedItemId(R.id.nav_home);
+
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ListNewsFragment()).commit();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Failed to upload image!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
             }
         });
@@ -206,19 +224,5 @@ public class CreateNewsFragment extends Fragment {
             return false;
         }
         return true;
-    }
-
-    private void clearInputs()
-    {
-        titleInput.setText("");
-        shortDescriptionInput.setText("");
-        longDescriptionInput.setText("");
-        phoneNumberInput.setText("");
-        locationInput.setText("");
-
-        imageUploaded = false;
-        imageView.setImageURI(null);
-
-        Toast.makeText(getContext(), "New uploaded!", Toast.LENGTH_SHORT).show();
     }
 }
