@@ -8,8 +8,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
+import com.example.pedrohuan.sapinewsandroidappv2.application.interfaces.BottomNavigationInterface;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity implements BottomNavigationInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,11 @@ public class Main2Activity extends AppCompatActivity {
                         case R.id.nav_home:
                             selectedFragment = new ListNewsFragment();
                             break;
+                        case R.id.nav_my_news:
+                            selectedFragment = new MyNewsFragment();
+                            break;
                         case R.id.nav_add:
-                            selectedFragment = new CreateNewsFragment();
+                            selectedFragment = new CreateNewsFragment(Main2Activity.this);
                             break;
                         case R.id.nav_profile:
                             selectedFragment = new ProfileFragment();
@@ -48,4 +52,14 @@ public class Main2Activity extends AppCompatActivity {
                     return true;
                 }
     };
+
+    @Override
+    public void changeToMain() {
+
+        BottomNavigationView bottom_nav = findViewById(R.id.bottom_navigation);
+
+        bottom_nav.setSelectedItemId(R.id.nav_home);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ListNewsFragment()).commit();
+    }
 }

@@ -38,22 +38,24 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    DatabaseReference myref = database.getReference().child("news");
-    DatabaseReference myrefUser = database.getReference().child("users");
+    private DatabaseReference myref = database.getReference().child("news");
+    private DatabaseReference myrefUser = database.getReference().child("users");
 
     private List<ListItem> listitems;
     private List<String> newKey;
+    private String openedFromFragment;
     private Context context;
 
     private StorageReference mStorageRef;
 
     private String profileImage;
 
-    public NewsAdapter(List<ListItem> listitems,List<String> newKey, Context context) {
+    public NewsAdapter(List<ListItem> listitems,List<String> newKey,String openedFromFragment, Context context) {
         this.listitems = listitems;
         this.newKey = newKey;
+        this.openedFromFragment = openedFromFragment;
         this.context = context;
     }
 
@@ -80,7 +82,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         mStorageRef.child(listitem.getUploadedImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                drawWithGlide(context,uri,viewHolder.uploadedImage);
+                //drawWithGlide(context,uri,viewHolder.uploadedImage);
+                Glide.with(context)
+                        .load(uri)
+                        .into(viewHolder.uploadedImage);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -122,7 +127,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
                 myref.child(newsKey).child("Clicks").setValue(listitem.getClicks() + 1);
 
-                Fragment detailedFragment = DetailedFragment.newInstance(listitem,newsKey);
+                Fragment detailedFragment = DetailedFragment.newInstance(listitem,newsKey,openedFromFragment);
 
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,detailedFragment).commit();
             }

@@ -1,5 +1,6 @@
 package com.example.pedrohuan.sapinewsandroidappv2.application;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
+import com.example.pedrohuan.sapinewsandroidappv2.application.interfaces.BottomNavigationInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +33,7 @@ import com.google.firebase.storage.UploadTask;
 
 import static android.app.Activity.RESULT_OK;
 
+@SuppressLint("ValidFragment")
 public class CreateNewsFragment extends Fragment {
 
     String userUID = FirebaseAuth.getInstance().getUid();
@@ -64,6 +67,13 @@ public class CreateNewsFragment extends Fragment {
 
     Uri mImageUri;
 
+    BottomNavigationInterface listener;
+
+
+    @SuppressLint("ValidFragment")
+    public CreateNewsFragment(BottomNavigationInterface listener) {
+        this.listener = listener;
+    }
 
     @Nullable
     @Override
@@ -81,8 +91,6 @@ public class CreateNewsFragment extends Fragment {
         imageView = (ImageView) fullView.findViewById(R.id.image_view);
         createButton = (Button) fullView.findViewById(R.id.create_button);
         uploadImageButton = (Button) fullView.findViewById(R.id.image_upload_button);
-
-        final BottomNavigationView bottom_nav = fullView.findViewById(R.id.bottom_navigation);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,9 +144,7 @@ public class CreateNewsFragment extends Fragment {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            bottom_nav.setSelectedItemId(R.id.nav_home);
-
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ListNewsFragment()).commit();
+                            listener.changeToMain();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

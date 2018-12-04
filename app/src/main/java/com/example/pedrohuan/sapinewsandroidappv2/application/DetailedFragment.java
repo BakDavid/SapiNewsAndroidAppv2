@@ -47,6 +47,9 @@ public class DetailedFragment extends Fragment {
 
     DatabaseReference myRef = database.getReference("news");
 
+    String openedFromMyNews = "MyNewsFragment";
+    String openedFromListNews = "ListNewsFragment";
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String mAlert = "alerts";
     private static final String mClicks = "clicks";
@@ -60,6 +63,7 @@ public class DetailedFragment extends Fragment {
     private static final String mShortDescription = "short_description";
     private static final String mTitle = "title";
     private static final String mNewsKey = "newsKey";
+    private static final String mOpenedFromFragment = "openedFromFragment";
 
     private Long Alert;
     private Long Clicks;
@@ -73,6 +77,7 @@ public class DetailedFragment extends Fragment {
     private String ShortDescription;
     private String Title;
     private String NewsKey;
+    private String OpenedFromFragment;
 
     TextView textTitle;
     TextView textFullName;
@@ -101,7 +106,7 @@ public class DetailedFragment extends Fragment {
      *
      * @return A new instance of fragment DetailedFragment.
      */
-    public static DetailedFragment newInstance(ListItem listItem,String newsKey) {
+    public static DetailedFragment newInstance(ListItem listItem,String newsKey,String openedFromFragment) {
         DetailedFragment fragment = new DetailedFragment();
         Bundle args = new Bundle();
         args.putString(mCreatedUser,listItem.getCreatedUser());
@@ -116,6 +121,7 @@ public class DetailedFragment extends Fragment {
         args.putString(mShortDescription,listItem.getShortDescription());
         args.putString(mTitle,listItem.getTitle());
         args.putString(mNewsKey,newsKey);
+        args.putString(mOpenedFromFragment,openedFromFragment);
         fragment.setArguments(args);
         return fragment;
     }
@@ -136,6 +142,7 @@ public class DetailedFragment extends Fragment {
             ShortDescription = getArguments().getString(mShortDescription);
             Title = getArguments().getString(mTitle);
             NewsKey = getArguments().getString(mNewsKey);
+            OpenedFromFragment = getArguments().getString(mOpenedFromFragment);
 
         }
     }
@@ -207,7 +214,14 @@ public class DetailedFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             myRef.child(NewsKey).removeValue();
 
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ListNewsFragment()).commit();
+                            if(OpenedFromFragment.matches(openedFromMyNews))
+                            {
+                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new MyNewsFragment()).commit();
+                            }
+                            if(OpenedFromFragment.matches(openedFromListNews))
+                            {
+                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ListNewsFragment()).commit();
+                            }
                         }
                     });
                     alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
