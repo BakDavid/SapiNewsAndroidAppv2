@@ -1,9 +1,5 @@
 package com.example.pedrohuan.sapinewsandroidappv2.application.adapter_and_item;
 
-import android.net.Uri;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 public class ListItem {
 
     private Long Alert;
@@ -17,8 +13,6 @@ public class ListItem {
     private String PhoneNumber;
     private String ShortDescription;
     private String Title;
-
-    //private String profileImage;
 
     public ListItem() {
     }

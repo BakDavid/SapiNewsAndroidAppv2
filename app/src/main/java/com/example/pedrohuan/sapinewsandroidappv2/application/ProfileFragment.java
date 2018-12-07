@@ -1,14 +1,11 @@
 package com.example.pedrohuan.sapinewsandroidappv2.application;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.provider.MediaStore;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
-import com.example.pedrohuan.sapinewsandroidappv2.application.models.User;
 import com.example.pedrohuan.sapinewsandroidappv2.authentication.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,14 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -52,14 +42,11 @@ public class ProfileFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    //User muser;
-
     View fullView;
 
     EditText firstNameInput;
     EditText lastNameInput;
     EditText emailInput;
-    //EditText phoneNumberInput;
     EditText addressInput;
 
     Button logoutButton;
@@ -70,7 +57,6 @@ public class ProfileFragment extends Fragment {
     String mfirstName;
     String mlastName;
     String memail;
-    String mphoneNumber;
     String maddress;
 
     Uri mImageUri;
@@ -88,7 +74,6 @@ public class ProfileFragment extends Fragment {
         firstNameInput = (EditText) fullView.findViewById(R.id.first_name_input);
         lastNameInput = (EditText) fullView.findViewById(R.id.last_name_input);
         emailInput = (EditText) fullView.findViewById(R.id.email_input);
-        //phoneNumberInput = (EditText) fullView.findViewById(R.id.phone_number_input);
         addressInput = (EditText) fullView.findViewById(R.id.address_input);
 
         logoutButton = (Button) fullView.findViewById(R.id.logout_button);
@@ -108,7 +93,6 @@ public class ProfileFragment extends Fragment {
                     String dlastName = dataSnapshot.child(userUID).child("LastName").getValue().toString();
                     String demail = dataSnapshot.child(userUID).child("Email").getValue().toString();
                     String daddress = dataSnapshot.child(userUID).child("Address").getValue().toString();
-                    //String dphoneNumber = dataSnapshot.child(userUID).child("PhoneNumber").getValue().toString();
                     if(dataSnapshot.hasChild(userUID + "/UserImage"))
                     {
                         String duserImage = dataSnapshot.child(userUID).child("UserImage").getValue().toString();
@@ -143,15 +127,6 @@ public class ProfileFragment extends Fragment {
                     //phoneNumberInput.setText(dphoneNumber);
                     addressInput.setText(daddress);
                 }
-
-                ///????????????????????WHY NOT WORKING??????? ALL NULL ??????????????????????????
-                //muser = dataSnapshot.getValue(User.class);
-                //firstNameInput.setText(muser.getFirstName());
-                //lastNameInput.setText(muser.getLastName());
-                //emailInput.setText(muser.getEmail());
-                //phoneNumberInput.setText(muser.getPhoneNumber());
-                //addressInput.setText(muser.getAddress());
-
             }
 
             @Override
@@ -181,7 +156,6 @@ public class ProfileFragment extends Fragment {
                 mfirstName = firstNameInput.getText().toString();
                 mlastName = lastNameInput.getText().toString();
                 memail = emailInput.getText().toString();
-                //mphoneNumber = phoneNumberInput.getText().toString();
                 maddress = addressInput.getText().toString();
 
                 if(validateInputs())
@@ -189,7 +163,6 @@ public class ProfileFragment extends Fragment {
                     myRef.child(userUID).child("FirstName").setValue(mfirstName);
                     myRef.child(userUID).child("LastName").setValue(mlastName);
                     myRef.child(userUID).child("Email").setValue(memail);
-                    //myRef.child(userUID).child("PhoneNumber").setValue(mphoneNumber);
                     myRef.child(userUID).child("Address").setValue(maddress);
                     myRef.child(userUID).child("UserUpdated").setValue(System.currentTimeMillis());
 

@@ -3,18 +3,17 @@ package com.example.pedrohuan.sapinewsandroidappv2.application;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
@@ -57,6 +56,8 @@ public class CreateNewsFragment extends Fragment {
     Button createButton;
     Button uploadImageButton;
 
+    ProgressBar progressBar;
+
     String mtitle;
     String mshortDescription;
     String mlongDescription;
@@ -92,6 +93,8 @@ public class CreateNewsFragment extends Fragment {
         createButton = (Button) fullView.findViewById(R.id.create_button);
         uploadImageButton = (Button) fullView.findViewById(R.id.image_upload_button);
 
+        progressBar = (ProgressBar) fullView.findViewById(R.id.progress_bar_create);
+
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +107,9 @@ public class CreateNewsFragment extends Fragment {
 
                 if(validateInputs())
                 {
+                    createButton.setEnabled(false);
+                    progressBar.setVisibility(View.VISIBLE);
+
                     final DatabaseReference myRef = database.getReference("news").child(userUID + System.currentTimeMillis());
                     DatabaseReference myRefUser = database.getReference("users").child(userUID);
 

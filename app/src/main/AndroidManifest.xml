@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".application.Main2Activity" />
         <activity android:name=".authentication.LoginActivity" />
-        <activity android:name=".authentication.RegisterActivity" />
     </application>
 
 </manifest>

@@ -1,13 +1,10 @@
 package com.example.pedrohuan.sapinewsandroidappv2.application.adapter_and_item;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,9 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
-import com.example.pedrohuan.sapinewsandroidappv2.application.CreateNewsFragment;
 import com.example.pedrohuan.sapinewsandroidappv2.application.DetailedFragment;
-import com.example.pedrohuan.sapinewsandroidappv2.application.Main2Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -82,7 +77,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         mStorageRef.child(listitem.getUploadedImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                //drawWithGlide(context,uri,viewHolder.uploadedImage);
                 Glide.with(context)
                         .load(uri)
                         .into(viewHolder.uploadedImage);
@@ -159,12 +153,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             profileImage = (CircleImageView) itemView.findViewById(R.id.profile_image);
             parentLayout = (ConstraintLayout) itemView.findViewById(R.id.parent_layout);
         }
-    }
-
-    public void drawWithGlide(Context context,Uri uri,ImageView imageView)
-    {
-        Glide.with(context)
-                .load(uri)
-                .into(imageView);
     }
 }
