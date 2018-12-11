@@ -1,4 +1,4 @@
-package com.example.pedrohuan.sapinewsandroidappv2.authentication;
+package ro.sapientia.ms.sapinewsandroidappv2.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
-import com.example.pedrohuan.sapinewsandroidappv2.application.Main2Activity;
+import ro.sapientia.ms.sapinewsandroidappv2.application.Main2Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;

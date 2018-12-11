@@ -67,6 +67,66 @@
           }
         },
         {
+          "client_id": "790723857984-fpj1pq8jvg4jkqbd56l9e0417df1j61f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pedrohuan.sapinewsandroidappv2",
+            "certificate_hash": "7e0d56ad3c74aecf072d46fa00d7ad797f0f77e3"
+          }
+        },
+        {
+          "client_id": "790723857984-9sil9h4ecjrlli56mh978fevo0ahidl2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqnZC-KJMKImT5oIavuPL-wx90HcyzmY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790723857984-9sil9h4ecjrlli56mh978fevo0ahidl2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790723857984:android:17ca1f234effb9af",
+        "android_client_info": {
+          "package_name": "ro.sapientia.ms.sapinewsandroidappv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790723857984-42u00bfj6aomrmes3q2tikd136kb9om7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ro.sapientia.ms.sapinewsandroidappv2",
+            "certificate_hash": "7e9e56d79e13da1929b480edf882fd6abbd86e2c"
+          }
+        },
+        {
+          "client_id": "790723857984-o5a8la68aqef0shgng1krje5pp6thmnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ro.sapientia.ms.sapinewsandroidappv2",
+            "certificate_hash": "7e0d56ad3c74aecf072d46fa00d7ad797f0f77e3"
+          }
+        },
+        {
           "client_id": "790723857984-9sil9h4ecjrlli56mh978fevo0ahidl2.apps.googleusercontent.com",
           "client_type": 3
         }

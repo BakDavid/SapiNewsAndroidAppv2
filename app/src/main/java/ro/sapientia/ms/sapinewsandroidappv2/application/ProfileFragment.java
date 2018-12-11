@@ -1,4 +1,4 @@
-package com.example.pedrohuan.sapinewsandroidappv2.application;
+package ro.sapientia.ms.sapinewsandroidappv2.application;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
-import com.example.pedrohuan.sapinewsandroidappv2.authentication.LoginActivity;
+import ro.sapientia.ms.sapinewsandroidappv2.authentication.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

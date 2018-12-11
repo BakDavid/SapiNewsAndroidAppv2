@@ -1,4 +1,4 @@
-package com.example.pedrohuan.sapinewsandroidappv2.application;
+package ro.sapientia.ms.sapinewsandroidappv2.application;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
-import com.example.pedrohuan.sapinewsandroidappv2.application.interfaces.BottomNavigationInterface;
+import ro.sapientia.ms.sapinewsandroidappv2.application.interfaces.BottomNavigationInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -108,6 +108,12 @@ public class CreateNewsFragment extends Fragment {
                 if(validateInputs())
                 {
                     createButton.setEnabled(false);
+                    uploadImageButton.setEnabled(false);
+                    titleInput.setEnabled(false);
+                    shortDescriptionInput.setEnabled(false);
+                    longDescriptionInput.setEnabled(false);
+                    phoneNumberInput.setEnabled(false);
+                    locationInput.setEnabled(false);
                     progressBar.setVisibility(View.VISIBLE);
 
                     final DatabaseReference myRef = database.getReference("news").child(userUID + System.currentTimeMillis());
@@ -156,6 +162,15 @@ public class CreateNewsFragment extends Fragment {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getContext(), "Failed to upload image!", Toast.LENGTH_SHORT).show();
+                            createButton.setEnabled(true);
+                            uploadImageButton.setEnabled(true);
+                            titleInput.setEnabled(true);
+                            shortDescriptionInput.setEnabled(true);
+                            longDescriptionInput.setEnabled(true);
+                            phoneNumberInput.setEnabled(true);
+                            locationInput.setEnabled(true);
+
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
 

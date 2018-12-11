@@ -1,11 +1,11 @@
-package com.example.pedrohuan.sapinewsandroidappv2;
+package ro.sapientia.ms.sapinewsandroidappv2;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.pedrohuan.sapinewsandroidappv2.application.Main2Activity;
-import com.example.pedrohuan.sapinewsandroidappv2.authentication.LoginActivity;
+import ro.sapientia.ms.sapinewsandroidappv2.application.Main2Activity;
+import ro.sapientia.ms.sapinewsandroidappv2.authentication.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

@@ -1,4 +1,4 @@
-package com.example.pedrohuan.sapinewsandroidappv2.application;
+package ro.sapientia.ms.sapinewsandroidappv2.application;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.pedrohuan.sapinewsandroidappv2.R;
-import com.example.pedrohuan.sapinewsandroidappv2.application.interfaces.BottomNavigationInterface;
+import ro.sapientia.ms.sapinewsandroidappv2.application.interfaces.BottomNavigationInterface;
 
 public class Main2Activity extends AppCompatActivity implements BottomNavigationInterface {
 

@@ -1,4 +1,4 @@
-package com.example.pedrohuan.sapinewsandroidappv2.application.adapter_and_item;
+package ro.sapientia.ms.sapinewsandroidappv2.application.adapter_and_item;
 
 public class ListItem {
 

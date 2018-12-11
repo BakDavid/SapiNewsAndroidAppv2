@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".application.ProfileFragment">
+        tools:context="ro.sapientia.ms.sapinewsandroidappv2.application.ProfileFragment">
 
 
         <TextView
@@ -90,7 +90,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars[2]" />
+            tools:src="@mipmap/ic_launcher" />
 
         <Button
             android:id="@+id/logout_button"
