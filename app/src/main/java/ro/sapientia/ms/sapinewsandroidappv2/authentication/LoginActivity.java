@@ -24,6 +24,11 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Ez az activity valositja meg a bejelentkezest mobilon telefonszam segitsegevel. A felhasznalo beirja
+ * a telefonszamat, amire rovid idon belul kap uzenetben egy kodot, amit be kell irjon a kod mezobe
+ * es ezek utan be tud jelentkezni.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "PhoneAuth";

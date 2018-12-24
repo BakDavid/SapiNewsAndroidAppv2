@@ -76,6 +76,14 @@ public class CreateNewsFragment extends Fragment {
         this.listener = listener;
     }
 
+    /**
+     * Letrehozodik a Create View ennel a resznel es itt van lehetosegunk uj hirdetes letrehozasara
+     * Az adatokat feltolti a Firebase adatbazisba es a kepetek a Firebase Storagebe
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -189,6 +197,9 @@ public class CreateNewsFragment extends Fragment {
     }
 
 
+    /**
+     * Ennek a fuggvenynek a segitsegevel tudunk kivalasztani kepet a telefonunkrol
+     */
     private void openFileChooser()
     {
         Intent intent = new Intent();
@@ -197,6 +208,13 @@ public class CreateNewsFragment extends Fragment {
         startActivityForResult(intent,PICK_IMAGE_REQUEST);
     }
 
+    /**
+     * Felulirtuk az onActivityResult-ot, hogy mikor kivalasszuk a telefonunkrol a kepet, akkor azt
+     * beallitja a CreateFragmentnel az ImageViewba, hogy lassa a felhasznalo, hogy mit valasztott ki
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -211,6 +229,10 @@ public class CreateNewsFragment extends Fragment {
         }
     }
 
+    /**
+     * Validalom a bemeneti mezok adatait, hogy azok megfeleloek-e vagy sem
+     * @return
+     */
     private boolean validateInputs()
     {
         String phonePattern = "07[0-9]{8}";

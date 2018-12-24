@@ -10,6 +10,11 @@ import android.view.MenuItem;
 import com.example.pedrohuan.sapinewsandroidappv2.R;
 import ro.sapientia.ms.sapinewsandroidappv2.application.interfaces.BottomNavigationInterface;
 
+/**
+ * Ez az activity tartja ossze a fragmenteket. Ha a navigation barnal rakattintunk egy menupontra, akkor
+ * ez az activity ertesitest kap rola es aszerint hogy mire kattintottunk kivalasztja, hogy melyik
+ * fragment kovetkezik.
+ */
 public class Main2Activity extends AppCompatActivity implements BottomNavigationInterface {
 
     @Override
@@ -53,6 +58,10 @@ public class Main2Activity extends AppCompatActivity implements BottomNavigation
                 }
     };
 
+    /**
+     * Ez a fuggveny az interfeszbol jon. A create news-nel, mikor a hirdetes letrejon, akkor a bottom
+     * navigation bar updatelodik es valt.
+     */
     @Override
     public void changeToMain() {
 

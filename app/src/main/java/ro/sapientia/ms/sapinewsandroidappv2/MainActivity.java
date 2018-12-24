@@ -9,6 +9,10 @@ import ro.sapientia.ms.sapinewsandroidappv2.authentication.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Evvel az activityvel indul az alkalmazas. Ha a felhasznalo be van jelentkezve akkor egybol beviszi
+ * az alkalmazas belsejebe, ha nincs akkor a login screenre.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

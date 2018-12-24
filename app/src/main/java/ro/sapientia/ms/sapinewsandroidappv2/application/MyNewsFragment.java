@@ -24,6 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Ez a fragment kilistazza azokat a hirdeteseket, amelyik csak a bejelentkezett felhasznaloe (ami az enyem)
+ */
 public class MyNewsFragment extends Fragment {
 
     View fullView;

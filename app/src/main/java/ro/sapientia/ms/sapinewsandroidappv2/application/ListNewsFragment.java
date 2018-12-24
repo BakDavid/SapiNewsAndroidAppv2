@@ -23,6 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Ennel a fragmentnel listazom ki az osszes hirdetest a NewsAdapter segitsegevel
+ */
 public class ListNewsFragment extends Fragment {
 
     View fullView;

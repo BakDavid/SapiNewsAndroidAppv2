@@ -31,6 +31,9 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Ennek az adapternek a segitsegevel toltom fel a homepage listajat elemekkel
+ */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -62,6 +65,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return new ViewHolder(v);
     }
 
+    /**
+     * Itt allitom be a lista elemeit. Betoltom az adatokat es a kepeket
+     * @param viewHolder
+     * @param i
+     */
     @Override
     public void onBindViewHolder(@NonNull final NewsAdapter.ViewHolder viewHolder, int i) {
         final ListItem listitem = listitems.get(i);
@@ -128,6 +136,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         });
     }
 
+    /**
+     * Visszateriti, hogy hany hirdetes van a listaban
+     * @return
+     */
     @Override
     public int getItemCount() {
         return listitems.size();

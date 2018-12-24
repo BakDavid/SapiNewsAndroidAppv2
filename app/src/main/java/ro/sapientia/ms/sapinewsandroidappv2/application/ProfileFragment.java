@@ -30,6 +30,10 @@ import com.google.firebase.storage.StorageReference;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Ez a fragment a felhasznalo adatait jeleniti meg. Lehetosege van modositani az adatait, profilkepet.
+ * Ugyanitt ki is tud jelentkezni az applikaciobol.
+ */
 public class ProfileFragment extends Fragment {
 
     String userUID = FirebaseAuth.getInstance().getUid();
@@ -81,6 +85,9 @@ public class ProfileFragment extends Fragment {
 
         profileImageInput = (ImageView) fullView.findViewById(R.id.profile_image_button);
 
+        /**
+         * Ez a resz betolti a felhasznalo adatait az adatbazisbol.
+         */
         //Get data from database, to prefill some of the EditTexts if there are data to be shown
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -137,7 +144,9 @@ public class ProfileFragment extends Fragment {
         });
 
 
-
+        /**
+         * Kijelentkezes megvalositasa
+         */
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +158,9 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        /**
+         * A profil adatainak a frissitese.
+         */
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,6 +194,9 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        /**
+         * A profil kepenek a modositasa es kivalasztasa
+         */
         profileImageInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,6 +207,9 @@ public class ProfileFragment extends Fragment {
         return fullView;
     }
 
+    /**
+     * Ez a fuggveny valositja meg azt, hogy a felhasznalo a telefonjarol tudjon kepet kivalasztani.
+     */
     private void openFileChooser()
     {
         Intent intent = new Intent();
@@ -200,6 +218,13 @@ public class ProfileFragment extends Fragment {
         startActivityForResult(intent,PICK_IMAGE_REQUEST);
     }
 
+    /**
+     * Ha a kepet kivalasztotta a felhasznalo, akkor azt az applikacio frissiteni fogja a fragmenten
+     * es latni fogja, hogy azt valasztotta-e ki amit szeretett volna vagy sem.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -216,6 +241,10 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    /**
+     * Ez a fuggveny validalja a bemeneti adatokat, hogy azok megfeleloek-e vagy sem.
+     * @return
+     */
     private boolean validateInputs()
     {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";

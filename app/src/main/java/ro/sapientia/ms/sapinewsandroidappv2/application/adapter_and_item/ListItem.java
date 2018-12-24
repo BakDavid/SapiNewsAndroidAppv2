@@ -1,5 +1,9 @@
 package ro.sapientia.ms.sapinewsandroidappv2.application.adapter_and_item;
 
+/**
+ * A ListItem tartalmaz ket konstruktort es a getter es setter metodusokat
+ * A ListItem a hirdetesek adatait tartalmazza
+ */
 public class ListItem {
 
     private Long Alert;

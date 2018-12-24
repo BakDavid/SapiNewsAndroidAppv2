@@ -28,12 +28,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DetailedFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DetailedFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Reszletezi a hirdetest ez a fragment
+ * Tobb adatot jelenit meg, lehetoseg van a hirdetes torlesere, megosztasara
  */
 public class DetailedFragment extends Fragment {
 
@@ -95,10 +91,11 @@ public class DetailedFragment extends Fragment {
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment DetailedFragment.
+     * Az adatokat amit ez a fragment kap ennel a fuggvenynel beallitjuk, majd kesobb felhasznaljuk
+     * @param listItem
+     * @param newsKey
+     * @param openedFromFragment
+     * @return
      */
     public static DetailedFragment newInstance(ListItem listItem,String newsKey,String openedFromFragment) {
         DetailedFragment fragment = new DetailedFragment();
@@ -120,6 +117,10 @@ public class DetailedFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * A letrehozatalnal beallitjuk a lemnetett ertekeket, ha vannak olyanok.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +142,13 @@ public class DetailedFragment extends Fragment {
         }
     }
 
+    /**
+     * Ennel a fuggvenynel oldom meg a fragmentben szereplo elemek kulonbozo interakciokra valo reagalasat
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -167,6 +175,9 @@ public class DetailedFragment extends Fragment {
         textLocation.setText(Location);
         textFullName.setText(FullName);
 
+        /**
+         * Betolti a hirdetesbe a kepet.
+         */
         mStorageRef.child(UploadedImage).getDownloadUrl()
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
@@ -193,6 +204,10 @@ public class DetailedFragment extends Fragment {
             }
         });
 
+        /**
+         * Ha a hirdetes a jelenlegi felhasznaloe, akkor ez a resz megvalositja, hogy le tudja torolni
+         * azt a delete button segitsegevel, ha akarja.
+         */
         if(userUID.matches(CreatedUser))
         {
             deleteButton.setVisibility(View.VISIBLE);
@@ -271,6 +286,9 @@ public class DetailedFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * Ez a fuggveny abban segit, hogy meg tudjuk osztani a hirdetesunkot kulonbozo szocialis platformon
+     */
     private void shareIt()
     {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
